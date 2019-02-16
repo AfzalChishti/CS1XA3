@@ -1,0 +1,1 @@
+./Project01/project_analyze.sh:grep -Hr "#TODO" --exclude="todo.log" "./Project01" > "./Project01/logs/todo.log"
