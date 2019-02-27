@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd ..
+cd ~
 #change it a bit/understand it
 function check_todo() { 
 grep -Hr "#TODO" --exclude="todo.log" "./Project01" > "./Project01/logs/todo.log"
@@ -9,6 +9,21 @@ grep -Hr "#TODO" --exclude="todo.log" "./Project01" > "./Project01/logs/todo.log
 function check_errors () {
 find -name "*.hs" | xargs -I {} ghc -fno-code {} &> /home/chishtia/CS1XA3/Project01/logs/compile_fail.log
 find -name "*.py" | xargs -I {} ghc -fno-code {} &> /home/chishtia/CS1XA3/Project01/logs/compile_fail.log
+}
+
+function check_compfile() {
+echo "What two files are you comparing?"
+read file1 file2
+diff $file1 $file2
+}
+
+#call function which find files depending the filename
+function check_find () {
+echo "What is the name of the file you are searching?"
+read filename
+echo "What type of file are you searching?"
+read filetype
+find . -name "*$filename*$filetype" -type f 
 }
 
 
@@ -34,7 +49,7 @@ javascript=0
 html=0
 
 #add the haskell and python error command after testing
-declare -a features=('todo' 'check_errors');
+declare -a features=('todo' 'errors' 'find' 'compfile');
 
 #add all features of the script by printing out values of the array of 
 #commands
@@ -50,7 +65,8 @@ for item in ${command[@]}; do
 	echo "The command in array which the user input is being compared to is ${item}" 
 	if [ "${item}" = "${command}" ]; then
 		check_${command}
-		echo "Found a match for the command"		
+		echo "Found a match for the command"
+				
 	fi
 done
 
