@@ -1,0 +1,50 @@
+#!/bin/bash
+
+cd ~
+#change it a bit/understand it
+function check_todo() { 
+grep -Hr "#TODO" --exclude="todo.log" "./Project01" > "./Project01/logs/todo.log"
+}
+
+function check_errors () {
+find -name "*.hs" | xargs -I {} ghc -fno-code {} &> /home/chishtia/CS1XA3/Project01/logs/compile_fail.log
+find -name "*.py" | xargs -I {} ghc -fno-code {} &> /home/chishtia/CS1XA3/Project01/logs/compile_fail.log
+}
+
+function check_hidefile() {
+echo "What file do you wish to delete?"
+read file
+find -name "*$file*" -delete
+}
+
+#call function which find files depending the filename
+function check_find () {
+echo "What is the name of the file you are searching?"
+read filename
+echo "What type of file are you searching?"
+read filetype
+find . -name "*$filename*$filetype" -type f 
+}
+
+
+#change it up, so to ensure that log files are created new everytime 
+#program is run
+file1="./Project01/logs/todo.log"
+file2="./Project01/logs/compile_fail.log"
+#file3="/home/chishtia/new_csv/csv"
+if [ -e "$file1" ] || [ -e "$file2" ]; then
+        rm -r "$file1"
+        rm -r "$file2"
+fi
+
+touch ./Project01/logs/todo.log
+touch ./Project01/logs/compile_fail.log
+
+#variables to store number of specific type of files
+bash=0
+hask=0
+python=0
+css=0
+javascript=0
+html=0
+
